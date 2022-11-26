@@ -2,7 +2,8 @@
 
 class Product
 {
-    protected $description;
+    protected string $name;
+    protected string $description;
     protected $stock;
     protected $salePrice;
     protected $unit;
@@ -13,8 +14,9 @@ class Product
      * @param $salePrice
      * @param $unit
      */
-    public function __construct($description, $stock, $salePrice, $unit)
+    public function __construct($name, $description, $stock, $salePrice, $unit)
     {
+        $this->name = $name;
         $this->description = $description;
         $this->stock = $stock;
         $this->salePrice = $salePrice;
@@ -22,17 +24,33 @@ class Product
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDescription()
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
-     * @param mixed $description
+     * @param string $description
      */
-    public function setDescription($description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -48,7 +66,7 @@ class Product
     /**
      * @param mixed $stock
      */
-    public function setStock($stock)
+    public function setStock($stock): void
     {
         $this->stock = $stock;
     }
@@ -64,7 +82,7 @@ class Product
     /**
      * @param mixed $salePrice
      */
-    public function setSalePrice($salePrice)
+    public function setSalePrice($salePrice): void
     {
         $this->salePrice = $salePrice;
     }
@@ -80,7 +98,7 @@ class Product
     /**
      * @param mixed $unit
      */
-    public function setUnit($unit)
+    public function setUnit($unit): void
     {
         $this->unit = $unit;
     }
