@@ -5,10 +5,10 @@ include_once "database/configuration/DatabaseConfiguration.php";
 class ProductOperations
 {
 
-    public function registerProduct(Product $product): ?Product
+    public static function registerProduct(Product $product): ?Product
     {
         try {
-            if (is_array($this->fetchProduct($product))) {
+            if (is_array(self::fetchProduct($product))) {
                 return null;
             }
 
@@ -27,19 +27,25 @@ class ProductOperations
         }
     }
 
-    public function fetchProduct(Product $product): ?array
+    public static function fetchProduct(Product $product = null): ?array
     {
         try {
             $connection = DatabaseConfiguration::openConnection();
 
             // Prepara a Query SQL
             $sql_command = "";
-            if (!is_null($product->getName())) {
-                $sql_command = $connection->prepare("SELECT * FROM product WHERE name=?");
-                $sql_command->execute($product->getName());
-            } else if (!is_null($product->getDescription())) {
-                $sql_command = $connection->prepare("SELECT * FROM product WHERE description=?");
-                $sql_command->execute($product->getDescription());
+            if (!is_null($product)) {
+                if (!is_null($product->getName())) {
+                    $sql_command = $connection->prepare("SELECT * FROM product WHERE name=?");
+                    $sql_command->execute($product->getName());
+                } else if (!is_null($product->getDescription())) {
+                    $sql_command = $connection->prepare("SELECT * FROM product WHERE description=?");
+                    $sql_command->execute($product->getDescription());
+                }
+            }
+
+            if ($sql_command == "") {
+                $sql_command = $connection->prepare("SELECT * FROM product");
             }
 
             $result = array();
