@@ -3,6 +3,7 @@
 class Skill
 {
 
+    protected $id;
     protected $name;
 
     /**
@@ -29,5 +30,20 @@ class Skill
         $this->name = $name;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
 
 }

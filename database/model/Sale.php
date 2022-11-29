@@ -2,6 +2,7 @@
 
 class Sale
 {
+    protected $id;
     protected $date;
     protected $total;
     protected string $obs;
@@ -105,7 +106,20 @@ class Sale
         $this->customer = $customer;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
 
 }

@@ -3,6 +3,7 @@
 class SaleItem extends Product
 {
 
+    protected $id;
     protected $amount;
     protected $discount;
     protected $totalValue;
@@ -15,9 +16,9 @@ class SaleItem extends Product
      * @param $salePrice
      * @param $unit
      */
-    public function __construct($amount, $discount, $description, $stock, $salePrice, $unit)
+    public function __construct($amount, $discount, $name, $description, $stock, $salePrice, $unit)
     {
-        parent::__construct($description, $stock, $salePrice, $unit);
+        parent::__construct($name, $description, $stock, $salePrice, $unit);
 
         $this->amount = $amount;
         $this->discount = $discount;
@@ -70,6 +71,22 @@ class SaleItem extends Product
     public function setTotalValue($totalValue): void
     {
         $this->totalValue = $totalValue;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
 }

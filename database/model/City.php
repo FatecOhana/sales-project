@@ -2,6 +2,7 @@
 
 class City
 {
+    protected $id;
     protected $name;
 
     /**
@@ -27,5 +28,23 @@ class City
     {
         $this->name = $name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+
 
 }
