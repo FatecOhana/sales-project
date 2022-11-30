@@ -16,7 +16,7 @@ class SaleOperations
 
             $sale->setCustomer(CustomerOperations::registerCustomer($sale->getCustomer()));
             $sale->setSaleItems(SaleItemsOperations::registerSaleItems($sale->getSaleItems()));
-            $sale->setDate(date('d/m/Y h:i:s', time()));
+            $sale->setDate(date('d-m-Y H:i:s', time()));
             $sale->setTotal($sale->calculateTotalSale());
 
             $connection = DatabaseConfiguration::openConnection();

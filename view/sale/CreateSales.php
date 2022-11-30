@@ -145,8 +145,8 @@ function checkValidValues($key): bool
                 <input type="number" name="quantity01" id="quantity01">
             </div>
             <div class="form-items">
-                <label for="discount03">Desconto:</label>
-                <input type="number" name="discount03" id="discount03">
+                <label for="discount01">Desconto:</label>
+                <input type="number" name="discount01" id="discount01">
             </div>
 
             <br>
@@ -195,18 +195,23 @@ function checkValidValues($key): bool
                 ?>
             </select>
             <div class="form-items">
-                <label for="discount01">Desconto:</label>
-                <input type="number" name="discount01" id="discount01">
+                <label for="discount03">Desconto:</label>
+                <input type="number" name="discount03" id="discount03">
             </div>
             <div class="form-items">
                 <label for="quantity03">Quantidade:</label>
                 <input type="number" name="quantity03" id="quantity03">
             </div>
 
+            <br>
+            <br>
+
             <div class="form-items">
                 <label for="observation">Observação:</label>
                 <input type="text" name="observation" id="observation">
             </div>
+
+            <br>
 
             <input type="submit" name="submit" id="submit">
 
