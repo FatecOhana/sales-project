@@ -3,13 +3,25 @@
 
 require __DIR__ . "/../../database/operations/CustomerOperations.php";
 require __DIR__ . "/../../database/model/Customer.php";
+require __DIR__ . "/../../database/model/Skill.php";
 
 try {
     if (isset($_POST['submit'])) {
 
-        // TODO ADD SKILL AND CITY ($_POST['city'], $_POST['skill'])
+        $skills = array();
+        if (isset($_POST['skill01']) && !empty($_POST["skill01"])) {
+            $skills[] = Skill::createWithParam($_POST['skill01']);
+        }
+        if (isset($_POST['skill02']) && !empty($_POST["skill02"])) {
+            $skills[] = Skill::createWithParam($_POST['skill02']);
+        }
+        if (isset($_POST['skill03']) && !empty($_POST["skill03"])) {
+            $skills[] = Skill::createWithParam($_POST['skill03']);
+        }
+
+        // TODO ADD SKILL AND CITY ($_POST['city'])
         $customer = Customer::createWithParam($_POST['name'], $_POST['address'], $_POST['phone'], $_POST['birthday'], "ATIVO",
-            $_POST['email'], $_POST['gender']);
+            $_POST['email'], $_POST['gender'])->setSkill($skills);
 
         $result = CustomerOperations::registerCustomer($customer);
     }
@@ -97,6 +109,22 @@ try {
                     <label for="gender">Sexo:</label>
                     <input type="text" name="gender" id="gender">
                 </div>
+
+                <br>
+
+                <div class="form-items">
+                    <label for="skill01">Skill 01:</label>
+                    <input type="text" name="skill01" id="skill01">
+                </div>
+                <div class="form-items">
+                    <label for="skill02">Skill 02:</label>
+                    <input type="text" name="skill02" id="skill02">
+                </div>
+                <div class="form-items">
+                    <label for="skill03">Skill 03:</label>
+                    <input type="text" name="skill03" id="skill03">
+                </div>
+
                 <input type="submit" name="submit" id="submit">
 
             </div>

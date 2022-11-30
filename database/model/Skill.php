@@ -6,28 +6,18 @@ class Skill
     protected $id;
     protected $name;
 
-    /**
-     * @param $name
-     */
-    public function __construct($name)
+    public function __construct()
     {
-        $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public static function create(): Skill
     {
-        return $this->name;
+        return new self();
     }
 
-    /**
-     * @param String $name
-     */
-    public function setName($name)
+    public static function createWithParam($name): Skill
     {
-        $this->name = $name;
+        return self::create()->setName($name);
     }
 
     /**
@@ -40,10 +30,30 @@ class Skill
 
     /**
      * @param mixed $id
+     * @return Skill
      */
-    public function setId($id): void
+    public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return Skill
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
 }
