@@ -15,6 +15,7 @@ class SaleOperations
             }
 
             $sale->setCustomer(CustomerOperations::registerCustomer($sale->getCustomer()));
+            $sale->setSaleItems(SaleItemsOperations::registerSaleItems($sale->getSaleItems()));
             $sale->setDate(date('d/m/Y h:i:s', time()));
             $sale->setTotal($sale->calculateTotalSale());
 
@@ -46,10 +47,9 @@ class SaleOperations
                 return;
             }
 
-            $resultSaleItems = SaleItemsOperations::registerSaleItems($saleItems);
             $connection = DatabaseConfiguration::openConnection();
 
-            foreach ($resultSaleItems as &$item) {
+            foreach ($saleItems as &$item) {
                 $sql_command = $connection->prepare("INSERT INTO saleitemsale(id_sale, id_sale_item) VALUE (?,?)");
                 $sql_command->execute(array($sale->getId(), $item->getId()));
             }
@@ -72,7 +72,7 @@ class SaleOperations
                 if (!is_null($sale->getId())) {
                     $sql_command = $connection->prepare("SELECT * FROM sale WHERE id=?");
                     $sql_command->execute([$sale->getId()]);
-                }else if (!is_null($sale->getCustomer())) {
+                } else if (!is_null($sale->getCustomer())) {
                     $sql_command = $connection->prepare("SELECT * FROM sale WHERE id_customer=?");
                     $sql_command->execute([$sale->getCustomer()->getId()]);
                 }

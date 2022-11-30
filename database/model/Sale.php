@@ -133,12 +133,12 @@ class Sale
 
     public function calculateTotalSale(): float
     {
-        if (!isset($saleItems) || !is_array($saleItems)) {
+        if (!is_array($this->getSaleItems())) {
             return 0.0;
         }
 
         $value = 0.0;
-        foreach ($saleItems as &$item) {
+        foreach ($this->getSaleItems() as &$item) {
             $value += $item->getTotalValue();
         }
 

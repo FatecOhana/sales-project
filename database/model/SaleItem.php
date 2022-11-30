@@ -26,6 +26,22 @@ class SaleItem extends Product
             ->setName($name)->setDescription($description)->setStock($stock)->setSalePrice($salePrice)->setUnit($unit);
     }
 
+    public function calculateTotalValue()
+    {
+        $value = 0.0;
+        if (is_numeric($this->getAmount()) && is_numeric($this->getSalePrice())) {
+            $finalDiscount = 0.0;
+            if (is_numeric($this->getDiscount())) {
+                $finalDiscount = $this->getDiscount() > 1 ? $this->getDiscount() / 100 : $this->getDiscount();
+            }
+
+            $grossValue = ($this->getAmount() * $this->getSalePrice());
+            $value += $grossValue - ($grossValue * $finalDiscount);
+        }
+
+        return $value;
+    }
+
     /**
      * @return mixed
      */

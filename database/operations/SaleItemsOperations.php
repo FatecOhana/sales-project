@@ -33,6 +33,17 @@ class SaleItemsOperations
                     ->setSalePrice($saleItem["salePrice"])->setStock($saleItem["stock"])->setDescription($saleItem["description"]);
             }
 
+            $productValues = ProductOperations::fetchProduct(Product::create()->setName($saleItem->getName()));
+
+            if (!isset($productValues) || !is_array($productValues)) {
+                return null;
+            }
+
+            $product = $productValues[0];
+
+            $saleItem->setSalePrice($product["salePrice"])->setName($product["name"])->setDescription($product["description"]);
+            $saleItem->setTotalValue($saleItem->calculateTotalValue());
+
             $connection = DatabaseConfiguration::openConnection();
             $sql_command = $connection->prepare("INSERT INTO saleitem(amount, discount, totalValue) VALUE (?,?,?)");
 
