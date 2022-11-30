@@ -75,6 +75,9 @@ function checkValidValues($key): bool
                 <li class="nav-item">
                     <a href="#">Buscar Vendas</a>
                 </li>
+                <li class="nav-item">
+                    <a href="../general/Exit.php">Sair</a>
+                </li>
             </ul>
         </div>
     </nav>

@@ -49,6 +49,9 @@ try {
                     <li class="nav-item">
                         <a href="../sale/SearchSale.php">Buscar Vendas</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="../general/Exit.php">Sair</a>
+                    </li>
                 </ul>
             </div>
         </div>

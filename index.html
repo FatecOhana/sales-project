@@ -2,43 +2,50 @@
 <html lang="pt-br">
 
 <head>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-    <title>T2 - Sistema de Vendas</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Vendas Por Usuario</title>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../general/global.css">
+
 </head>
 
 <body>
-    <h3>Produtos</h3>
-    <ul>
-        <li><a href="view/product/CreateProduct.php">Cadastrar Produtos</a></li>
-        <li><a href="view/product/ListProduct.php">Listar Produtos</a></li>
-    </ul>
-
-    <br/>
-
-    <h3>Usuario</h3>
-    <ul>
-        <li><a href="view/customer/CreateCustomer.php">Cadastrar Usuario</a></li>
-        <li><a href="view/customer/ListCustomer.php">Listar Usuarios</a></li>
-    </ul>
-
-    <br/>
-
-    <h3>Venda</h3>
-    <ul>
-        <li><a href="view/sale/CreateSales.php">Cadastrar Venda</a></li>
-        <li><a href="view/sale/ListSaleByUser.php">Listar Vendas por Cliente</a></li>
-    </ul>
-
-    <br/>
-
-    <h3>Pedidos</h3>
-    <ul>
-        <li><a href="view/sale/CreateSales.php">Imprimir Pedidos</a></li>
-    </ul>
-
-    <br/>
-
-    <a href="view/general/Exit.php">Sair da Aplicação</a>
+<header>
+    <nav class="navbar" id="nav">
+        <div class="container">
+            <ul>
+                <li class="nav-item">
+                    <a href="view/product/CreateProduct.php">Cadastrar Produto</a>
+                </li>
+                <li class="nav-item">
+                    <a href="view/product/ListProduct.php">Listar produtos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="view/customer/CreateCustomer.php">Cadastrar Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="view/customer/ListCustomer.php">Listar Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="view/sale/CreateSales.php">Registrar Vendas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="view/sale/ListSaleByUser.php">Listar Vendas por Usuario</a>
+                </li>
+                <li class="nav-item">
+                    <a href="view/sale/SearchSale.php">Buscar Vendas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="view/general/Exit.php">Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 </body>
 
 </html>
