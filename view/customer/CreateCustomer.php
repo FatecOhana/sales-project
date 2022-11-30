@@ -1,10 +1,10 @@
 <?php
 // ITEM C: Cadastrar clientes
 
-require __DIR__ . "/../../database/operations/CustomerOperations.php";
-require __DIR__ . "/../../database/model/Customer.php";
-require __DIR__ . "/../../database/model/Skill.php";
-require __DIR__ . "/../../database/model/City.php";
+require_once __DIR__ . "/../../database/operations/CustomerOperations.php";
+require_once __DIR__ . "/../../database/model/Customer.php";
+require_once __DIR__ . "/../../database/model/Skill.php";
+require_once __DIR__ . "/../../database/model/City.php";
 
 try {
     if (isset($_POST['submit'])) {
@@ -23,7 +23,7 @@ try {
         $city = null;
         if (isset($_POST['city']) && !empty($_POST["city"])) {
             $city = City::create()->setName($_POST['city']);
-        } else{
+        } else {
             echo "Selecione uma Cidade Valida.";
             return;
         }
