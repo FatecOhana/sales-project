@@ -2,6 +2,7 @@
 
 include_once(__DIR__ . "/../configuration/DatabaseConfiguration.php");
 include_once(__DIR__ . "/../operations/SkillOperations.php");
+include_once(__DIR__ . "/../operations/CityOperations.php");
 
 class CustomerOperations
 {
@@ -14,16 +15,15 @@ class CustomerOperations
             }
 
             $customer->setSkill(SkillOperations::registerSkills($customer->getSkill()));
+            $customer->setCity(CityOperations::registerCity($customer->getCity()));
 
             $connection = DatabaseConfiguration::openConnection();
             $sql_command = $connection->prepare("INSERT INTO " .
-                "customer(name, address, phone, birthday, status, email, gender) VALUE (?,?,?,?,?,?,?)");
-
-            // TODO ADD CITY DEPENDENCIES
+                "customer(name, address, phone, birthday, status, email, gender, id_city) VALUE (?,?,?,?,?,?,?,?)");
 
             $isInserted = $sql_command->execute(array($customer->getName(), $customer->getAddress(),
                 $customer->getPhone(), $customer->getBirthday(), $customer->getStatus(), $customer->getEmail(),
-                $customer->getGender()));
+                $customer->getGender(), $customer->getCity()->getId()));
 
             if (is_bool($isInserted) && $isInserted) {
                 $lastInsertedID = $connection->lastInsertId();

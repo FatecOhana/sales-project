@@ -4,6 +4,7 @@
 require __DIR__ . "/../../database/operations/CustomerOperations.php";
 require __DIR__ . "/../../database/model/Customer.php";
 require __DIR__ . "/../../database/model/Skill.php";
+require __DIR__ . "/../../database/model/City.php";
 
 try {
     if (isset($_POST['submit'])) {
@@ -19,9 +20,17 @@ try {
             $skills[] = Skill::createWithParam($_POST['skill03']);
         }
 
+        $city = null;
+        if (isset($_POST['city']) && !empty($_POST["city"])) {
+            $city = City::create()->setName($_POST['city']);
+        } else{
+            echo "Selecione uma Cidade Valida.";
+            return;
+        }
+
         // TODO ADD SKILL AND CITY ($_POST['city'])
         $customer = Customer::createWithParam($_POST['name'], $_POST['address'], $_POST['phone'], $_POST['birthday'], "ATIVO",
-            $_POST['email'], $_POST['gender'])->setSkill($skills);
+            $_POST['email'], $_POST['gender'])->setSkill($skills)->setCity($city);
 
         $result = CustomerOperations::registerCustomer($customer);
     }
