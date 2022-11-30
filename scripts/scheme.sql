@@ -36,7 +36,10 @@ CREATE TABLE IF NOT EXISTS saleitem(
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     amount INT,
     discount FLOAT,
-    totalValue FLOAT
+    totalValue FLOAT,
+    id_product INT,
+
+    FOREIGN KEY (id_product) REFERENCES product(id)
 );
 
 CREATE TABLE IF NOT EXISTS saleitemsale(
@@ -46,16 +49,6 @@ CREATE TABLE IF NOT EXISTS saleitemsale(
 
    FOREIGN KEY (id_sale_item) REFERENCES saleitem(id),
    FOREIGN KEY (id_sale) REFERENCES sale(id)
-);
-
-
-CREATE TABLE IF NOT EXISTS saleitemproduct(
-    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    id_sale_item INT NOT NULL,
-    id_product INT NOT NULL,
-
-    FOREIGN KEY (id_sale_item) REFERENCES saleitem(id),
-    FOREIGN KEY (id_product) REFERENCES product(id)
 );
 
 CREATE TABLE IF NOT EXISTS customer(

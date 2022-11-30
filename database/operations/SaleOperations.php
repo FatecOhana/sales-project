@@ -50,8 +50,10 @@ class SaleOperations
             $connection = DatabaseConfiguration::openConnection();
 
             foreach ($saleItems as &$item) {
-                $sql_command = $connection->prepare("INSERT INTO saleitemsale(id_sale, id_sale_item) VALUE (?,?)");
-                $sql_command->execute(array($sale->getId(), $item->getId()));
+                if (!is_null($item) && !is_null($item->getId())) {
+                    $sql_command = $connection->prepare("INSERT INTO saleitemsale(id_sale, id_sale_item) VALUE (?,?)");
+                    $sql_command->execute(array($sale->getId(), $item->getId()));
+                }
             }
 
         } catch (Exception $ex) {

@@ -139,7 +139,9 @@ class Sale
 
         $value = 0.0;
         foreach ($this->getSaleItems() as &$item) {
-            $value += $item->getTotalValue();
+            if(!is_null($item) && !is_null($item->getTotalValue())){
+                $value += $item->getTotalValue();
+            }
         }
 
         return $value;

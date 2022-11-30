@@ -45,9 +45,10 @@ class SaleItemsOperations
             $saleItem->setTotalValue($saleItem->calculateTotalValue());
 
             $connection = DatabaseConfiguration::openConnection();
-            $sql_command = $connection->prepare("INSERT INTO saleitem(amount, discount, totalValue) VALUE (?,?,?)");
+            $sql_command = $connection->prepare("INSERT INTO saleitem(amount, discount, totalValue, id_product) VALUE (?,?,?,?)");
 
-            $isInserted = $sql_command->execute(array($saleItem->getAmount(), $saleItem->getDiscount(), $saleItem->getTotalValue()));
+            $isInserted = $sql_command->execute(array($saleItem->getAmount(), $saleItem->getDiscount(),
+                $saleItem->getTotalValue(), $product["id"]));
 
             if (is_bool($isInserted) && $isInserted) {
                 $lastInsertedID = $connection->lastInsertId();

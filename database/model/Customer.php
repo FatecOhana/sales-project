@@ -124,7 +124,7 @@ class Customer
      * @param mixed $birthday
      * @return Customer
      */
-    public function setBirthday($birthday = null)
+    public function setBirthday($birthday = null): Customer
     {
         $this->birthday = $birthday;
         return $this;
@@ -196,7 +196,7 @@ class Customer
      * @param City $city
      * @return Customer
      */
-    public function setCity(?City $city): Customer
+    public function setCity(City $city): Customer
     {
         $this->city = $city;
         return $this;
