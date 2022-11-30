@@ -106,7 +106,7 @@ function checkValidValues($key): bool
     <div>
         <form action="CreateSales.php" method="post">
 
-            <label for='customer'>Cliete</label>
+            <label for='customer'>Cliente</label>
             <select name='customer' id='customer'>
                 <?php
                 echo "<option disabled selected></option>";

@@ -11,8 +11,9 @@ class CustomerOperations
     public static function registerCustomer(Customer $customer): ?Customer
     {
         try {
-            if (is_array(self::fetchCustomer($customer))) {
-                return $customer;
+            $existInDatabase = self::fetchCustomer($customer);
+            if (is_array($existInDatabase)) {
+                return Customer::createWithKeys($existInDatabase[0]);
             }
 
             $customer->setSkill(SkillOperations::registerSkills($customer->getSkill()));

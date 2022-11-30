@@ -33,6 +33,13 @@ class Customer
         setStatus($status)->setEmail($email)->setGender($gender);
     }
 
+    public static function createWithKeys($object): Customer
+    {
+        return self::create()->setId($object['id'])->setName($object['name'])->setAddress($object['address'])
+            ->setPhone($object['phone'])->setBirthday($object['birthday'])->setStatus($object['status'])
+            ->setEmail($object['email'])->setGender($object['gender']);
+    }
+
     /**
      * @return mixed
      */
