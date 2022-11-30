@@ -5,7 +5,7 @@ class Sale
     protected $id;
     protected $date;
     protected $total;
-    protected $obs;
+    protected ?string $obs = null;
     protected array $saleItems = [];
 
     protected Customer $customer;
@@ -129,6 +129,20 @@ class Sale
     {
         $this->customer = $customer;
         return $this;
+    }
+
+    public function calculateTotalSale(): float
+    {
+        if (!isset($saleItems) || !is_array($saleItems)) {
+            return 0.0;
+        }
+
+        $value = 0.0;
+        foreach ($saleItems as &$item) {
+            $value += $item->getTotalValue();
+        }
+
+        return $value;
     }
 
 }

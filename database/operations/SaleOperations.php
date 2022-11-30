@@ -9,13 +9,14 @@ class SaleOperations
     public static function registerSale(Sale $sale): ?Sale
     {
         try {
-            if (is_array(self::fetchSale($sale))) {
-                return null;
+            $fetchSale = self::fetchSale($sale);
+            if (is_array($fetchSale)) {
+                return $fetchSale[0];
             }
 
-            $sale->setSaleItems(SaleItemsOperations::registerSaleItems($sale->getSaleItems()));
             $sale->setCustomer(CustomerOperations::registerCustomer($sale->getCustomer()));
             $sale->setDate(date('d/m/Y h:i:s', time()));
+            $sale->setTotal($sale->calculateTotalSale());
 
             $connection = DatabaseConfiguration::openConnection();
             $sql_command = $connection->prepare("INSERT INTO sale(date, total, obs, id_customer) VALUE (?,?,?,?)");
@@ -50,9 +51,7 @@ class SaleOperations
 
             foreach ($resultSaleItems as &$item) {
                 $sql_command = $connection->prepare("INSERT INTO saleitemsale(id_sale, id_sale_item) VALUE (?,?)");
-
-                $itemDecoded = json_decode($item);
-                $sql_command->execute(array($sale->getId(), $itemDecoded["id"]));
+                $sql_command->execute(array($sale->getId(), $item->getId()));
             }
 
         } catch (Exception $ex) {
