@@ -120,7 +120,6 @@ function checkValidValues($key): bool
         <tbody>
         <?php
         if (isset($resultSales) && is_array($resultSales)) {
-            var_dump($resultSales);
             foreach ($resultSales as &$item) {
                 echo '<tr>';
                 echo "<td>" . $item['id'] . "</td>";
