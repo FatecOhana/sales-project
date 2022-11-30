@@ -63,29 +63,6 @@ class SaleItemsOperations
         }
     }
 
-    /* private static function setSaleItemAndProductRelation(Sale $sale)
-     {
-         try {
-             if (is_array(self::fetchSaleItem($saleItem))) {
-                 return $saleItem;
-             }
-
-             $connection = DatabaseConfiguration::openConnection();
-             $sql_command = $connection->prepare("INSERT INTO sale(amount, discount, totalValue) VALUE (?,?,?)");
-
-             $isInserted = $sql_command->execute(array($saleItem->getAmount(), $saleItem->getDiscount(), $saleItem->getTotalValue()));
-
-             if (is_bool($isInserted) && $isInserted) {
-                 return $saleItem;
-             } else {
-                 // Item not inserted
-                 return null;
-             }
-         } catch (Exception $ex) {
-             return null;
-         }
-     }*/
-
     public static function fetchSaleItem(SaleItem $saleItem = null): ?array
     {
         try {
@@ -108,7 +85,33 @@ class SaleItemsOperations
 
             $result = array();
             while ($row = $sql_command->fetch(PDO::FETCH_ASSOC)) {
-                $result[] = $row;
+                $productValues = ProductOperations::fetchProduct(Product::create()->setId($row["id_product"]));
+
+                if (!isset($productValues) || !is_array($productValues)) {
+                    $result[] = $row;
+                }
+
+                $product = $productValues[0];
+                $finalRow = $row;
+                $finalRow["salePrice"] = $product["salePrice"];
+                $finalRow["name"] = $product["name"];
+                $finalRow["unit"] = $product["unit"];
+                $finalRow["description"] = $product["description"];
+
+                foreach ($result as &$item) {
+                    if (is_null($item)) continue;
+
+                    $productValues = ProductOperations::fetchProduct(Product::create()->setId($item["id_product"]));
+                    if (!isset($productValues) || !is_array($productValues)) {
+                        return null;
+                    }
+
+                    $product = $productValues[0];
+                    $finalRow->setSalePrice($product["salePrice"])->setName($product["name"])->setDescription($product["description"]);
+                    $finalRow->setTotalValue($finalRow->calculateTotalValue());
+                }
+
+                $result[] = $finalRow;
             }
 
             if (!$result) {

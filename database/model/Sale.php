@@ -8,7 +8,7 @@ class Sale
     protected ?string $obs = null;
     protected array $saleItems = [];
 
-    protected Customer $customer;
+    protected ?Customer $customer = null;
 
     /**
      * Static constructor / factory
@@ -114,18 +114,18 @@ class Sale
     }
 
     /**
-     * @return Customer
+     * @return Customer|null
      */
-    public function getCustomer(): Customer
+    public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
     /**
-     * @param Customer $customer
+     * @param Customer|null $customer
      * @return Sale
      */
-    public function setCustomer(Customer $customer = null): Sale
+    public function setCustomer(?Customer $customer): Sale
     {
         $this->customer = $customer;
         return $this;
@@ -139,7 +139,7 @@ class Sale
 
         $value = 0.0;
         foreach ($this->getSaleItems() as &$item) {
-            if(!is_null($item) && !is_null($item->getTotalValue())){
+            if (!is_null($item) && !is_null($item->getTotalValue())) {
                 $value += $item->getTotalValue();
             }
         }

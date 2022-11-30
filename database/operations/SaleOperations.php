@@ -2,6 +2,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 require_once __DIR__ . "/../configuration/DatabaseConfiguration.php";
 require_once __DIR__ . "/../operations/SaleItemsOperations.php";
+require_once __DIR__ . "/../operations/CustomerOperations.php";
 
 class SaleOperations
 {
@@ -89,6 +90,11 @@ class SaleOperations
                 $customer = CustomerOperations::fetchCustomer(Customer::create()->setId($row['id_customer']));
                 $row['customer'] = Customer::createWithKeys($customer[0])->getName();
 
+                $saleItemResults = self::fetchSaleItemOfSale($row['id']);
+                if (isset($saleItemResults) && is_array($saleItemResults)) {
+                    $row['sales_items'] = $saleItemResults;
+                }
+
                 $result[] = $row;
             }
 
@@ -101,36 +107,27 @@ class SaleOperations
         }
     }
 
-    public static function fetchSaleItemOfSale(Sale $sale): ?array
+    public static function fetchSaleItemOfSale(int $id_sale): ?array
     {
         try {
-            if (!is_null($sale->getId())) {
-                return null;
-            }
-
-            $saleDatabase = json_decode(self::fetchSale($sale)[0]);
-
             $connection = DatabaseConfiguration::openConnection();
 
-            $sql_command = "";
-            if (!is_null($sale->getId())) {
-                $sql_command = $connection->prepare("SELECT * FROM saleitemsale WHERE id_sale=?");
-                $sql_command->execute([$saleDatabase["id"]]);
-            }
+            $sql_command = $connection->prepare("SELECT * FROM saleitemsale WHERE id_sale=?");
+            $sql_command->execute([$id_sale]);
 
             $result = array();
             while ($row = $sql_command->fetch(PDO::FETCH_ASSOC)) {
                 $result[] = $row;
             }
 
-            if (!$result) {
+            if (!isset($result) || !is_array($result)) {
                 return null;
             }
 
             $results = array();
             foreach ($result as &$item) {
-                $saleWithId = SaleItem::create()->setId($result["id"]);
-                $results[] = SaleItemsOperations::fetchSaleItem($saleWithId);
+                if (is_null($item)) continue;
+                $results[] = SaleItemsOperations::fetchSaleItem(SaleItem::create()->setId($item["id_sale_item"]))[0];
             }
 
             return $results;

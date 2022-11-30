@@ -3,8 +3,8 @@
 class Product
 {
     protected $id;
-    protected string $name;
-    protected string $description;
+    protected ?string $name = null;
+    protected ?string $description = null;
     protected $stock;
     protected $salePrice;
     protected $unit;
@@ -43,36 +43,36 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      * @return Product
      */
-    public function setName(string $name): Product
+    public function setName(?string $name): Product
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      * @return Product
      */
-    public function setDescription(string $description): Product
+    public function setDescription(?string $description): Product
     {
         $this->description = $description;
         return $this;

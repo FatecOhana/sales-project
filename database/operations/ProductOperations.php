@@ -41,13 +41,20 @@ class ProductOperations
                 $sql_command = $connection->prepare("SELECT * FROM product");
                 $sql_command->execute();
             } else {
-                if (!is_null($product->getName())) {
+                if (!is_null($product->getId())) {
+                    $sql_command = $connection->prepare("SELECT * FROM product WHERE id=?");
+                    $sql_command->execute([$product->getId()]);
+                } else if (!is_null($product->getName())) {
                     $sql_command = $connection->prepare("SELECT * FROM product WHERE name=?");
                     $sql_command->execute([$product->getName()]);
                 } else if (!is_null($product->getDescription())) {
                     $sql_command = $connection->prepare("SELECT * FROM product WHERE description=?");
                     $sql_command->execute([$product->getDescription()]);
                 }
+            }
+
+            if ($sql_command == ""){
+                return null;
             }
 
             $result = array();
