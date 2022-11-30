@@ -3,13 +3,13 @@
 class Customer
 {
     protected $id;
-    protected string $name;
-    protected string $address;
-    protected string $phone;
+    protected ?string $name = null;
+    protected ?string $address= null;
+    protected ?string $phone= null;
     protected $birthday;
-    protected string $status;
-    protected string $email;
-    protected string $gender;
+    protected ?string $status= null;
+    protected ?string $email= null;
+    protected ?string $gender= null;
 
     // one item
     protected City $city;
@@ -52,61 +52,61 @@ class Customer
      * @param mixed $id
      * @return Customer
      */
-    public function setId($id)
+    public function setId($id = null): Customer
     {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      * @return Customer
      */
-    public function setName(string $name): Customer
+    public function setName(?string $name = null): Customer
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
     /**
-     * @param string $address
+     * @param string|null $address
      * @return Customer
      */
-    public function setAddress(string $address): Customer
+    public function setAddress(?string $address = null): Customer
     {
         $this->address = $address;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
     /**
-     * @param string $phone
+     * @param string|null $phone
      * @return Customer
      */
-    public function setPhone(string $phone): Customer
+    public function setPhone(?string $phone = null): Customer
     {
         $this->phone = $phone;
         return $this;
@@ -124,61 +124,61 @@ class Customer
      * @param mixed $birthday
      * @return Customer
      */
-    public function setBirthday($birthday)
+    public function setBirthday($birthday = null)
     {
         $this->birthday = $birthday;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
     /**
-     * @param string $status
+     * @param string|null $status
      * @return Customer
      */
-    public function setStatus(string $status): Customer
+    public function setStatus(?string $status = null): Customer
     {
         $this->status = $status;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
     /**
-     * @param string $email
+     * @param string|null $email
      * @return Customer
      */
-    public function setEmail(string $email): Customer
+    public function setEmail(?string $email = null): Customer
     {
         $this->email = $email;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getGender(): string
+    public function getGender(): ?string
     {
         return $this->gender;
     }
 
     /**
-     * @param string $gender
+     * @param string|null $gender
      * @return Customer
      */
-    public function setGender(string $gender): Customer
+    public function setGender(?string $gender = null): Customer
     {
         $this->gender = $gender;
         return $this;
@@ -196,7 +196,7 @@ class Customer
      * @param City $city
      * @return Customer
      */
-    public function setCity(City $city): Customer
+    public function setCity(?City $city): Customer
     {
         $this->city = $city;
         return $this;
@@ -214,7 +214,7 @@ class Customer
      * @param array $skill
      * @return Customer
      */
-    public function setSkill(array $skill): Customer
+    public function setSkill(array $skill = []): Customer
     {
         $this->skill = $skill;
         return $this;

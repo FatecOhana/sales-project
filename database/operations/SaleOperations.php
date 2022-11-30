@@ -85,6 +85,9 @@ class SaleOperations
 
             $result = array();
             while ($row = $sql_command->fetch(PDO::FETCH_ASSOC)) {
+                $customer = CustomerOperations::fetchCustomer(Customer::create()->setId($row['id_customer']));
+                $row['customer'] = Customer::createWithKeys($customer[0])->getName();
+
                 $result[] = $row;
             }
 

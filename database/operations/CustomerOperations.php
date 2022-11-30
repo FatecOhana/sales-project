@@ -49,17 +49,24 @@ class CustomerOperations
             $connection = DatabaseConfiguration::openConnection();
 
             $sql_command = "";
-            if (is_null($customer)) {
+            if (!isset($customer)) {
                 $sql_command = $connection->prepare("SELECT * FROM customer");
                 $sql_command->execute();
             } else {
-                if (!is_null($customer->getName())) {
+                if (!is_null($customer->getId())) {
+                    $sql_command = $connection->prepare("SELECT * FROM customer WHERE id=?");
+                    $sql_command->execute([$customer->getId()]);
+                } else if (!is_null($customer->getName())) {
                     $sql_command = $connection->prepare("SELECT * FROM customer WHERE name=?");
                     $sql_command->execute([$customer->getName()]);
                 } else if (!is_null($customer->getEmail())) {
                     $sql_command = $connection->prepare("SELECT * FROM customer WHERE email=?");
                     $sql_command->execute([$customer->getEmail()]);
                 }
+            }
+
+            if ($sql_command == "") {
+                return null;
             }
 
             $result = array();

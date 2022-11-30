@@ -1,18 +1,37 @@
 <?php
 // ITEM F: Listar vendas por cliente. Solicitar um Codigo de Cliente e Listar todas as suas vendas.
 
+require_once __DIR__ . "/../../database/operations/CustomerOperations.php";
+require_once __DIR__ . "/../../database/operations/ProductOperations.php";
+require_once __DIR__ . "/../../database/operations/SaleOperations.php";
+require_once __DIR__ . "/../../database/model/Sale.php";
+require_once __DIR__ . "/../../database/model/SaleItem.php";
+require_once __DIR__ . "/../../database/model/Customer.php";
 
 try {
     if (isset($_POST['submit'])) {
-        include_once("database/operations/CustomerOperations.php");
+        $customer = CustomerOperations::fetchCustomer(Customer::create()->setName(returnValidValues("customer")));
 
-        $customer = new Customer($_POST['name'], $_POST['address'], $_POST['phone'], $_POST['birthday'], $_POST['status'],
-            $_POST['email'], $_POST['gender'], $_POST['city'], $_POST['skill']);
-
-        $result = CustomerOperations::registerCustomer($customer);
+        if (is_null($customer) || is_null($customer[0])) {
+            echo "Cliente Invalido. Tente Selecionar uma outra Opção.";
+        } else{
+            $resultSales = SaleOperations::fetchSale(Sale::create()->setCustomer(Customer::createWithKeys($customer[0])));
+        }
+    } else {
+        echo "Selecione um Cliente";
     }
 } catch (Exception $e) {
     error_log("exception in create customer. " . $e->getMessage());
+}
+
+function returnValidValues($key)
+{
+    return checkValidValues($key) ? $_POST[$key] : null;
+}
+
+function checkValidValues($key): bool
+{
+    return isset($_POST[$key]) && !empty($_POST[$key]);
 }
 
 ?>
@@ -67,39 +86,64 @@ try {
         <form action="ListSaleByUser.php" method="post">
             <div class="container">
 
-                <div class="form-items">
-                    <label for="nome">Nome do Cliente:</label>
-                    <input type="text" name="nome" id="nome" aria-describedby="nome">
-                </div>
-                <div class="form-items">
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" name="endereco" id="Endereco">
-                </div>
-                <div class="form-items">
-                    <label for="telefone">Telefone:</label>
-                    <input type="text" name="telefone" id="telefone">
-                </div>
-                <div class="form-items">
-                    <label for="data_nasc">Data de Nascimento:</label>
-                    <input type="text" name="data_nasc" id="data_nasc">
-                </div>
-                <div class="form-items">
-                    <label for="sstatus">Status:</label>
-                    <input type="text" name="sstatus" id="sstatus">
-                </div>
-                <div class="form-items">
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email">
-                </div>
-                <div class="form-items">
-                    <label for="sexo">Sexo:</label>
-                    <input type="text" name="sexo" id="sexo">
-                </div>
-                <input type="submit" name="submit" id="submit">
+                <label for='customer'>Cliente</label>
+                <select name='customer' id='customer'>
+                    <?php
+                    echo "<option disabled selected value=''></option>";
 
+                    $result = CustomerOperations::fetchCustomer();
+                    if (is_array($result)) {
+                        foreach ($result as &$item) {
+                            echo "<option>" . $item['name'] . "</option>";
+                        }
+                    } else {
+                        echo "<option disabled>Sem Informações de Cliente</option>";
+                    }
+                    ?>
+                </select>
+
+                <input type="submit" name="submit" id="submit">
             </div>
         </form>
     </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Codigo Venda</th>
+            <th>Codigo Cliente</th>
+            <th>Cliente</th>
+            <th>Data</th>
+            <th>Valor Total</th>
+            <th>Observações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        if (isset($resultSales) && is_array($resultSales)) {
+            var_dump($resultSales);
+            foreach ($resultSales as &$item) {
+                echo '<tr>';
+                echo "<td>" . $item['id'] . "</td>";
+                echo "<td>" . $item['id_customer'] . "</td>";
+                echo "<td>" . $item['customer'] . "</td>";
+                echo "<td>" . $item['date'] . "</td>";
+                echo "<td>" . $item['total'] . "</td>";
+                echo "<td>" . $item['obs'] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo '<tr>';
+            echo "<td>Sem Valor</td>";
+            echo "<td>Sem Valor</td>";
+            echo "<td>Sem Valor</td>";
+            echo "<td>Sem Valor</td>";
+            echo "<td>Sem Valor</td>";
+            echo "<td>Sem Valor</td>";
+            echo "</tr>";
+        }
+        ?>
+        </tbody>
+    </table>
 </main>
 </body>
 
