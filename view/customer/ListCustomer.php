@@ -70,6 +70,7 @@ try {
                 <th>Codigo</th>
                 <th>Nome</th>
                 <th>Cod. Cidade</th>
+                <th>Cidade</th>
                 <th>Endereço</th>
                 <th>Data de Nascimento</th>
                 <th>Status</th>
@@ -86,6 +87,7 @@ try {
                         echo "<td>" . $item['id'] . "</td>";
                         echo "<td>" . $item['name'] . "</td>";
                         echo "<td>" . $item['id_city'] . "</td>";
+                        echo "<td>" . $item['city'] . "</td>";
                         echo "<td>" . $item['address'] . "</td>";
                         echo "<td>" . $item['birthday'] . "</td>";
                         echo "<td>" . $item['status'] . "</td>";

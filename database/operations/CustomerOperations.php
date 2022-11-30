@@ -3,6 +3,7 @@
 include_once(__DIR__ . "/../configuration/DatabaseConfiguration.php");
 include_once(__DIR__ . "/../operations/SkillOperations.php");
 include_once(__DIR__ . "/../operations/CityOperations.php");
+include_once(__DIR__ . "/../model/City.php");
 
 class CustomerOperations
 {
@@ -62,6 +63,8 @@ class CustomerOperations
 
             $result = array();
             while ($row = $sql_command->fetch(PDO::FETCH_ASSOC)) {
+                $row['city'] = CityOperations::fetchCity(City::create()->setId($row['id_city']))[0]['name'];
+                // TODO RECOVERY SKILLS
                 $result[] = $row;
             }
 
