@@ -1,18 +1,58 @@
 <?php
-// ITEM E: Cadastrar venda. Permitir ao usuário cadastrar uma venda, informando: Cliente da venda e  Itens da venda (Produtos)
-
+require_once __DIR__ . "/../../database/operations/CustomerOperations.php";
+require_once __DIR__ . "/../../database/operations/ProductOperations.php";
+require_once __DIR__ . "/../../database/operations/SaleOperations.php";
+require_once __DIR__ . "/../../database/model/Sale.php";
+require_once __DIR__ . "/../../database/model/SaleItem.php";
+require_once __DIR__ . "/../../database/model/Customer.php";
+// ITEM A: Cadastrar produtos
 
 try {
     if (isset($_POST['submit'])) {
-        include_once("database/operations/CustomerOperations.php");
 
-        $customer = new Customer($_POST['name'], $_POST['address'], $_POST['phone'], $_POST['birthday'], $_POST['status'],
-            $_POST['email'], $_POST['gender'], $_POST['city'], $_POST['skill']);
+        $salesItems = array();
+        if (checkValidValues("product01")) {
+            $productOne = SaleItem::create()->setName(returnValidValues("product01"));
+            $productOne->setDiscount(returnValidValues("discount01"));
+            $productOne->setAmount(returnValidValues("quantity01"));
+            $salesItems[] = $productOne;
+        }
+        if (checkValidValues("product02")) {
+            $productTwo = SaleItem::create()->setName(returnValidValues("product02"));
+            $productTwo->setDiscount(returnValidValues("discount02"));
+            $productTwo->setAmount(returnValidValues("quantity02"));
+            $salesItems[] = $productTwo;
+        }
+        if (checkValidValues("product03")) {
+            $productThree = SaleItem::create()->setName(returnValidValues("product03"));
+            $productThree->setDiscount(returnValidValues("discount03"));
+            $productThree->setAmount(returnValidValues("quantity03"));
+            $salesItems[] = $productThree;
+        }
 
-        $result = CustomerOperations::registerCustomer($customer);
+        $customer = null;
+        if (checkValidValues("customer")) {
+            $customer = Customer::create()->setName(returnValidValues("customer"));
+        } else {
+            echo "Selecione um Cliente Valido";
+            return;
+        }
+
+        $sale = Sale::create()->setSaleItems($salesItems)->setCustomer($customer)->setObs(returnValidValues("observation"));
+        $saleDatabase = SaleOperations::registerSale($sale);
     }
 } catch (Exception $e) {
-    error_log("exception in create customer. " . $e->getMessage());
+    error_log("exception in create product. " . $e->getMessage());
+}
+
+function returnValidValues($key)
+{
+    return checkValidValues($key) ? $_POST[$key] : null;
+}
+
+function checkValidValues($key): bool
+{
+    return isset($_POST[$key]) && !empty($_POST[$key]);
 }
 
 ?>
@@ -24,7 +64,7 @@ try {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Vendas</title>
+    <title>Cadastrar Produto</title>
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 
     <!-- CSS -->
@@ -65,39 +105,111 @@ try {
 <main>
     <div>
         <form action="CreateSales.php" method="post">
-            <div class="container">
 
-                <div class="form-items">
-                    <label for="nome">Nome do Cliente:</label>
-                    <input type="text" name="nome" id="nome" aria-describedby="nome">
-                </div>
-                <div class="form-items">
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" name="endereco" id="Endereco">
-                </div>
-                <div class="form-items">
-                    <label for="telefone">Telefone:</label>
-                    <input type="text" name="telefone" id="telefone">
-                </div>
-                <div class="form-items">
-                    <label for="data_nasc">Data de Nascimento:</label>
-                    <input type="text" name="data_nasc" id="data_nasc">
-                </div>
-                <div class="form-items">
-                    <label for="sstatus">Status:</label>
-                    <input type="text" name="sstatus" id="sstatus">
-                </div>
-                <div class="form-items">
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email">
-                </div>
-                <div class="form-items">
-                    <label for="sexo">Sexo:</label>
-                    <input type="text" name="sexo" id="sexo">
-                </div>
-                <input type="submit" name="submit" id="submit">
+            <label for='customer'>Cliete</label>
+            <select name='customer' id='customer'>
+                <?php
+                echo "<option disabled selected></option>";
 
+                $result = CustomerOperations::fetchCustomer();
+                if (is_array($result)) {
+                    foreach ($result as &$item) {
+                        echo "<option>" . $item['name'] . "</option>";
+                    }
+                } else {
+                    echo "<option disabled>Sem Informações de Cliente</option>";
+                }
+                ?>
+            </select>
+
+            <br>
+            <br>
+
+            <label for='product01'>Produto 01</label>
+            <select name='product01' id='product01'>
+                <?php
+                echo "<option disabled selected></option>";
+
+                $result = ProductOperations::fetchProduct();
+                if (is_array($result)) {
+                    foreach ($result as &$item) {
+                        echo "<option>" . $item['name'] . "</option>";
+                    }
+                } else {
+                    echo "<option disabled>Sem Informações de Produto</option>";
+                }
+                ?>
+            </select>
+            <div class="form-items">
+                <label for="quantity01">Quantidade:</label>
+                <input type="number" name="quantity01" id="quantity01">
             </div>
+            <div class="form-items">
+                <label for="discount03">Desconto:</label>
+                <input type="number" name="discount03" id="discount03">
+            </div>
+
+            <br>
+            <br>
+
+            <label for='product02'>Produto 02</label>
+            <select name='product02' id='product02'>
+                <?php
+                echo "<option disabled selected></option>";
+
+                $result = ProductOperations::fetchProduct();
+                if (is_array($result)) {
+                    foreach ($result as &$item) {
+                        echo "<option>" . $item['name'] . "</option>";
+                    }
+                } else {
+                    echo "<option disabled>Sem Informações de Produto</option>";
+                }
+                ?>
+            </select>
+            <div class="form-items">
+                <label for="quantity02">Quantidade:</label>
+                <input type="number" name="quantity02" id="quantity02">
+            </div>
+            <div class="form-items">
+                <label for="discount02">Desconto:</label>
+                <input type="number" name="discount02" id="discount02">
+            </div>
+
+            <br>
+            <br>
+
+            <label for='product03'>Produto 03</label>
+            <select name='product03' id='product03'>
+                <?php
+                echo "<option disabled selected></option>";
+
+                $result = ProductOperations::fetchProduct();
+                if (is_array($result)) {
+                    foreach ($result as &$item) {
+                        echo "<option>" . $item['name'] . "</option>";
+                    }
+                } else {
+                    echo "<option disabled>Sem Informações de Produto</option>";
+                }
+                ?>
+            </select>
+            <div class="form-items">
+                <label for="discount01">Desconto:</label>
+                <input type="number" name="discount01" id="discount01">
+            </div>
+            <div class="form-items">
+                <label for="quantity03">Quantidade:</label>
+                <input type="number" name="quantity03" id="quantity03">
+            </div>
+
+            <div class="form-items">
+                <label for="observation">Observação:</label>
+                <input type="text" name="observation" id="observation">
+            </div>
+
+            <input type="submit" name="submit" id="submit">
+
         </form>
     </div>
 </main>

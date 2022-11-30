@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . "/../configuration/DatabaseConfiguration.php";
+require_once __DIR__ . "/../configuration/DatabaseConfiguration.php";
 
 class ProductOperations
 {

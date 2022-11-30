@@ -7,7 +7,8 @@ try {
 
     if (isset($_POST['submit'])) {
 
-        $product = new Product($_POST['name'], $_POST['description'], $_POST['stock'], $_POST['salePrice'], $_POST['unit']);
+        $product = Product::createWithParams($_POST['name'], $_POST['description'], $_POST['stock'],
+            $_POST['salePrice'], $_POST['unit']);
 
         $productDatabase = ProductOperations::registerProduct($product);
     }

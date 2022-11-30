@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../../database/model/Product.php";
 
 class SaleItem extends Product
 {
@@ -8,69 +9,21 @@ class SaleItem extends Product
     protected $discount;
     protected $totalValue;
 
-    /**
-     * @param $amount
-     * @param $discount
-     * @param $description
-     * @param $stock
-     * @param $salePrice
-     * @param $unit
-     */
-    public function __construct($amount, $discount, $name, $description, $stock, $salePrice, $unit)
+    public function __construct()
     {
-        parent::__construct($name, $description, $stock, $salePrice, $unit);
-
-        $this->amount = $amount;
-        $this->discount = $discount;
-        $this->totalValue = $amount * $salePrice;
+        parent::__construct();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAmount()
+    public static function create(): SaleItem
     {
-        return $this->amount;
+        return new self();
     }
 
-    /**
-     * @param mixed $amount
-     */
-    public function setAmount($amount): void
+    public static function createWithParams2($name, $description, $stock, $salePrice, $unit, $amount, $discount): SaleItem
     {
-        $this->amount = $amount;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDiscount()
-    {
-        return $this->discount;
-    }
-
-    /**
-     * @param mixed $discount
-     */
-    public function setDiscount($discount): void
-    {
-        $this->discount = $discount;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotalValue()
-    {
-        return $this->totalValue;
-    }
-
-    /**
-     * @param mixed $totalValue
-     */
-    public function setTotalValue($totalValue): void
-    {
-        $this->totalValue = $totalValue;
+        return self::create()->setAmount($amount)->setDiscount($discount)->setTotalValue($amount * $salePrice)
+            // Inhertance
+            ->setName($name)->setDescription($description)->setStock($stock)->setSalePrice($salePrice)->setUnit($unit);
     }
 
     /**
@@ -83,10 +36,67 @@ class SaleItem extends Product
 
     /**
      * @param mixed $id
+     * @return SaleItem
      */
-    public function setId($id): void
+    public function setId($id = null): SaleItem
     {
         $this->id = $id;
+        return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param mixed $amount
+     * @return SaleItem
+     */
+    public function setAmount($amount = null): SaleItem
+    {
+        $this->amount = $amount;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param mixed $discount
+     * @return SaleItem
+     */
+    public function setDiscount($discount = null): SaleItem
+    {
+        $this->discount = $discount;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalValue()
+    {
+        return $this->totalValue;
+    }
+
+    /**
+     * @param mixed $totalValue
+     * @return SaleItem
+     */
+    public function setTotalValue($totalValue = null): SaleItem
+    {
+        $this->totalValue = $totalValue;
+        return $this;
+    }
+
 
 }

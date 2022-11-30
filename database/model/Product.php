@@ -9,99 +9,19 @@ class Product
     protected $salePrice;
     protected $unit;
 
-    /**
-     * @param $description
-     * @param $stock
-     * @param $salePrice
-     * @param $unit
-     */
-    public function __construct($name, $description, $stock, $salePrice, $unit)
+    public function __construct()
     {
-        $this->name = $name;
-        $this->description = $description;
-        $this->stock = $stock;
-        $this->salePrice = $salePrice;
-        $this->unit = $unit;
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public static function create(): Product
     {
-        return $this->name;
+        return new self();
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public static function createWithParams($name, $description, $stock, $salePrice, $unit): Product
     {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStock()
-    {
-        return $this->stock;
-    }
-
-    /**
-     * @param mixed $stock
-     */
-    public function setStock($stock): void
-    {
-        $this->stock = $stock;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSalePrice()
-    {
-        return $this->salePrice;
-    }
-
-    /**
-     * @param mixed $salePrice
-     */
-    public function setSalePrice($salePrice): void
-    {
-        $this->salePrice = $salePrice;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUnit()
-    {
-        return $this->unit;
-    }
-
-    /**
-     * @param mixed $unit
-     */
-    public function setUnit($unit): void
-    {
-        $this->unit = $unit;
+        return self::create()->setName($name)->setDescription($description)->setStock($stock)
+            ->setSalePrice($salePrice)->setUnit($unit);
     }
 
     /**
@@ -114,10 +34,102 @@ class Product
 
     /**
      * @param mixed $id
+     * @return Product
      */
-    public function setId($id): void
+    public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Product
+     */
+    public function setName(string $name): Product
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return Product
+     */
+    public function setDescription(string $description): Product
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStock()
+    {
+        return $this->stock;
+    }
+
+    /**
+     * @param mixed $stock
+     * @return Product
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSalePrice()
+    {
+        return $this->salePrice;
+    }
+
+    /**
+     * @param mixed $salePrice
+     * @return Product
+     */
+    public function setSalePrice($salePrice)
+    {
+        $this->salePrice = $salePrice;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * @param mixed $unit
+     * @return Product
+     */
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
+        return $this;
     }
 
 }

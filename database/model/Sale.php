@@ -5,105 +5,22 @@ class Sale
     protected $id;
     protected $date;
     protected $total;
-    protected string $obs;
+    protected $obs;
     protected array $saleItems = [];
 
     protected Customer $customer;
 
     /**
-     * @param $date
-     * @param $total
-     * @param string $obs
-     * @param array $saleItems
-     * @param Customer $customer
+     * Static constructor / factory
      */
-    public function __construct($date, $total, string $obs, array $saleItems, Customer $customer)
+    public static function create()
     {
-        $this->date = $date;
-        $this->total = $total;
-        $this->obs = $obs;
-        $this->saleItems = $saleItems;
-        $this->customer = $customer;
+        return new self();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
 
-    /**
-     * @param mixed $date
-     */
-    public function setDate($date): void
+    public function __construct()
     {
-        $this->date = $date;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    /**
-     * @param mixed $total
-     */
-    public function setTotal($total): void
-    {
-        $this->total = $total;
-    }
-
-    /**
-     * @return string
-     */
-    public function getObs(): string
-    {
-        return $this->obs;
-    }
-
-    /**
-     * @param string $obs
-     */
-    public function setObs(string $obs): void
-    {
-        $this->obs = $obs;
-    }
-
-    /**
-     * @return array
-     */
-    public function getSaleItems(): array
-    {
-        return $this->saleItems;
-    }
-
-    /**
-     * @param array $saleItems
-     */
-    public function setSaleItems(array $saleItems): void
-    {
-        $this->saleItems = $saleItems;
-    }
-
-    /**
-     * @return Customer
-     */
-    public function getCustomer(): Customer
-    {
-        return $this->customer;
-    }
-
-    /**
-     * @param Customer $customer
-     */
-    public function setCustomer(Customer $customer): void
-    {
-        $this->customer = $customer;
     }
 
     /**
@@ -116,10 +33,102 @@ class Sale
 
     /**
      * @param mixed $id
+     * @return Sale
      */
-    public function setId($id): void
+    public function setId($id = null): Sale
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $date
+     * @return Sale
+     */
+    public function setDate($date = null): Sale
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param mixed $total
+     * @return Sale
+     */
+    public function setTotal($total = null): Sale
+    {
+        $this->total = $total;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObs(): ?string
+    {
+        return $this->obs;
+    }
+
+    /**
+     * @param string|null $obs
+     * @return Sale
+     */
+    public function setObs(string $obs = null): Sale
+    {
+        $this->obs = $obs;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSaleItems(): array
+    {
+        return $this->saleItems;
+    }
+
+    /**
+     * @param array $saleItems
+     * @return Sale
+     */
+    public function setSaleItems(array $saleItems = []): Sale
+    {
+        $this->saleItems = $saleItems;
+        return $this;
+    }
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param Customer $customer
+     * @return Sale
+     */
+    public function setCustomer(Customer $customer = null): Sale
+    {
+        $this->customer = $customer;
+        return $this;
     }
 
 }
