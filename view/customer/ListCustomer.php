@@ -3,8 +3,9 @@
 
 session_start();
 
+require __DIR__ . "/../../database/operations/CustomerOperations.php";
+
 try {
-    include_once("database/operations/CustomerOperations.php");
     $result = CustomerOperations::fetchCustomer();
 } catch (Exception $e) {
     error_log("exception in list customer. " . $e->getMessage());
@@ -66,31 +67,35 @@ try {
         <table class="table">
             <thead>
             <tr>
-                <th>#</th>
+                <th>Codigo</th>
                 <th>Nome</th>
+                <th>Cod. Cidade</th>
                 <th>Endereço</th>
-                <th>Telefone</th>
                 <th>Data de Nascimento</th>
                 <th>Status</th>
+                <th>Telefone</th>
                 <th>Email</th>
                 <th>Sexo</th>
             </tr>
             </thead>
             <tbody>
             <?php
-            while ($user_data = mysqli_fetch_assoc($result)) {
-                echo "<tr>";
-                echo "<td>" . $user_data['id'] . "</td>";
-                echo "<td>" . $user_data['nome'] . "</td>";
-                echo "<td>" . $user_data['endereco'] . "</td>";
-                echo "<td>" . $user_data['telefone'] . "</td>";
-                echo "<td>" . $user_data['data_nasc'] . "</td>";
-                echo "<td>" . $user_data['sstatus'] . "</td>";
-                echo "<td>" . $user_data['email'] . "</td>";
-                echo "<td>" . $user_data['sexo'] . "</td>";
-                echo "</tr>";
-            }
-            ?>
+                if (is_array($result)) {
+                    foreach ($result as &$item) {
+                        echo '<tr>';
+                        echo "<td>" . $item['id'] . "</td>";
+                        echo "<td>" . $item['name'] . "</td>";
+                        echo "<td>" . $item['id_city'] . "</td>";
+                        echo "<td>" . $item['address'] . "</td>";
+                        echo "<td>" . $item['birthday'] . "</td>";
+                        echo "<td>" . $item['status'] . "</td>";
+                        echo "<td>" . $item['phone'] . "</td>";
+                        echo "<td>" . $item['email'] . "</td>";
+                        echo "<td>" . $item['gender'] . "</td>";
+                        echo "</tr>";
+                    }
+                }
+                ?>
             </tbody>
         </table>
     </div>

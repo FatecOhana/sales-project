@@ -1,12 +1,15 @@
 <?php
 // ITEM C: Cadastrar clientes
 
+require __DIR__ . "/../../database/operations/CustomerOperations.php";
+require __DIR__ . "/../../database/model/Customer.php";
+
 try {
     if (isset($_POST['submit'])) {
-        include_once("database/operations/CustomerOperations.php");
 
-        $customer = new Customer($_POST['name'], $_POST['address'], $_POST['phone'], $_POST['birthday'], $_POST['status'],
-            $_POST['email'], $_POST['gender'], $_POST['city'], $_POST['skill']);
+        // TODO ADD SKILL AND CITY ($_POST['city'], $_POST['skill'])
+        $customer = Customer::createWithParam($_POST['name'], $_POST['address'], $_POST['phone'], $_POST['birthday'], "ATIVO",
+            $_POST['email'], $_POST['gender']);
 
         $result = CustomerOperations::registerCustomer($customer);
     }
@@ -67,32 +70,32 @@ try {
             <div class="container">
 
                 <div class="form-items">
-                    <label for="nome">Nome do Cliente:</label>
-                    <input type="text" name="nome" id="nome" aria-describedby="nome">
+                    <label for="name">Nome do Cliente:</label>
+                    <input type="text" name="name" id="name">
                 </div>
                 <div class="form-items">
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" name="endereco" id="Endereco">
+                    <label for="city">Cidade:</label>
+                    <input type="text" name="city" id="city">
                 </div>
                 <div class="form-items">
-                    <label for="telefone">Telefone:</label>
-                    <input type="text" name="telefone" id="telefone">
+                    <label for="address">Endereço:</label>
+                    <input type="text" name="address" id="address">
                 </div>
                 <div class="form-items">
-                    <label for="data_nasc">Data de Nascimento:</label>
-                    <input type="text" name="data_nasc" id="data_nasc">
+                    <label for="phone">Telefone:</label>
+                    <input type="text" name="phone" id="phone">
                 </div>
                 <div class="form-items">
-                    <label for="sstatus">Status:</label>
-                    <input type="text" name="sstatus" id="sstatus">
+                    <label for="birthday">Data de Nascimento:</label>
+                    <input type="text" name="birthday" id="birthday">
                 </div>
                 <div class="form-items">
                     <label for="email">Email:</label>
                     <input type="email" name="email" id="email">
                 </div>
                 <div class="form-items">
-                    <label for="sexo">Sexo:</label>
-                    <input type="text" name="sexo" id="sexo">
+                    <label for="gender">Sexo:</label>
+                    <input type="text" name="gender" id="gender">
                 </div>
                 <input type="submit" name="submit" id="submit">
 
