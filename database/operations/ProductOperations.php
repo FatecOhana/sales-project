@@ -9,7 +9,7 @@ class ProductOperations
     {
         try {
             if (is_array(self::fetchProduct($product))) {
-                return null;
+                return $product;
             }
 
             $connection = DatabaseConfiguration::openConnection();
