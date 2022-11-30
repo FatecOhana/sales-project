@@ -1,11 +1,8 @@
 <?php
+require __DIR__ . "/../../database/operations/ProductOperations.php";
 // ITEM B: Listar produtos. Exibir na tela todos os produtos cadastrados
 try {
-
-    if (isset($_POST['submit'])) {
-        include_once("database/operations/ProductOperations.php");
-        $result = ProductOperations::fetchProduct();
-    }
+    $result = ProductOperations::fetchProduct();
 } catch (Exception $e) {
     error_log("exception in list product. " . $e->getMessage());
 }
@@ -62,7 +59,8 @@ try {
         <table class="table">
             <thead>
             <tr>
-                <th>#</th>
+                <th>Codigo</th>
+                <th>Nome</th>
                 <th>Descriçao</th>
                 <th>Estoque</th>
                 <th>Valor</th>
@@ -71,15 +69,18 @@ try {
             </thead>
             <tbody>
             <?php
-            while ($user_data = mysqli_fetch_assoc($result)) {
-                echo '<tr>';
-                echo "<td>" . $user_data['id'] . "</td>";
-                echo "<td>" . $user_data['descricao'] . "</td>";
-                echo "<td>" . $user_data['estoque'] . "</td>";
-                echo "<td>" . $user_data['valor'] . "</td>";
-                echo "<td>" . $user_data['unidade'] . "</td>";
-                echo "</tr>";
-            }
+                if (is_array($result)) {
+                    foreach ($result as &$item) {
+                        echo '<tr>';
+                        echo "<td>" . $item['id'] . "</td>";
+                        echo "<td>" . $item['name'] . "</td>";
+                        echo "<td>" . $item['description'] . "</td>";
+                        echo "<td>" . $item['stock'] . "</td>";
+                        echo "<td>" . $item['salePrice'] . "</td>";
+                        echo "<td>" . $item['unit'] . "</td>";
+                        echo "</tr>";
+                    }
+                }
             ?>
             </tbody>
         </table>

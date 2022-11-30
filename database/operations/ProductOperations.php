@@ -1,6 +1,6 @@
 <?php
 
-include_once "database/configuration/DatabaseConfiguration.php";
+require __DIR__ . "/../configuration/DatabaseConfiguration.php";
 
 class ProductOperations
 {
@@ -17,6 +17,9 @@ class ProductOperations
 
             if ($sql_command->execute(array($product->getName(), $product->getDescription(),
                 $product->getStock(), $product->getSalePrice(), $product->getUnit()))) {
+
+                $lastInsertedID = $connection->lastInsertId();
+                $product->setId($lastInsertedID);
                 return $product;
             } else {
                 // Item not inserted
@@ -34,24 +37,24 @@ class ProductOperations
 
             // Prepara a Query SQL
             $sql_command = "";
-            if (!is_null($product)) {
+            if (is_null($product)) {
+                $sql_command = $connection->prepare("SELECT * FROM product");
+                $sql_command->execute();
+            } else {
                 if (!is_null($product->getName())) {
                     $sql_command = $connection->prepare("SELECT * FROM product WHERE name=?");
-                    $sql_command->execute($product->getName());
+                    $sql_command->execute([$product->getName()]);
                 } else if (!is_null($product->getDescription())) {
                     $sql_command = $connection->prepare("SELECT * FROM product WHERE description=?");
-                    $sql_command->execute($product->getDescription());
+                    $sql_command->execute([$product->getDescription()]);
                 }
-            }
-
-            if ($sql_command == "") {
-                $sql_command = $connection->prepare("SELECT * FROM product");
             }
 
             $result = array();
             while ($row = $sql_command->fetch(PDO::FETCH_ASSOC)) {
                 $result[] = $row;
             }
+
 
             if (!$result) {
                 return null;

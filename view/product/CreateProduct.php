@@ -1,10 +1,11 @@
 <?php
+require __DIR__ . "/../../database/operations/ProductOperations.php";
+require __DIR__ . "/../../database/model/Product.php";
 // ITEM A: Cadastrar produtos
 
 try {
 
     if (isset($_POST['submit'])) {
-        include_once("database/operations/ProductOperations.php");
 
         $product = new Product($_POST['name'], $_POST['description'], $_POST['stock'], $_POST['salePrice'], $_POST['unit']);
 
@@ -66,20 +67,24 @@ try {
         <form action="CreateProduct.php" method="post">
 
             <div class="form-items">
-                <label for="descricao">Descriçao:</label>
-                <input type="text" name="descricao" id="descricao">
+                <label for="name">Nome:</label>
+                <input type="text" name="name" id="name">
             </div>
             <div class="form-items">
-                <label for="estoque">Estoque:</label>
-                <input type="text" name="estoque" id="estoque">
+                <label for="description">Descriçao:</label>
+                <input type="text" name="description" id="description">
             </div>
             <div class="form-items">
-                <label for="valor">Valor:</label>
-                <input type="text" name="valor" id="valor">
+                <label for="stock">Estoque:</label>
+                <input type="text" name="stock" id="stock">
             </div>
             <div class="form-items">
-                <label for="unidade">Unidade:</label>
-                <input type="text" name="unidade" id="unidade">
+                <label for="salePrice">Valor:</label>
+                <input type="text" name="salePrice" id="salePrice">
+            </div>
+            <div class="form-items">
+                <label for="unit">Unidade:</label>
+                <input type="text" name="unit" id="unit">
             </div>
 
             <input type="submit" name="submit" id="submit">
